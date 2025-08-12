@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>忘记密码</title>
+  <!-- 引入bootstrap.css -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+  <!-- 引入 Font Awesome 图标库 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <style>
+    @import url('./register.jpg');
+
+    body {
+      background: url('../static/image/register.jpg') no-repeat center center fixed;
+      background-size: cover;
+      width: 100%;
+      height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+    }
+
+    .container {
+      width: 450px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      padding: 40px;
+      box-sizing: border-box;
+      border-radius: 25px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      z-index: 1;
+      animation: fadeInUp 0.8s ease-out;
+      position: relative;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .container h3 {
+      font-weight: 600;
+      text-align: center;
+      color: #fff;
+      margin-bottom: 30px;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .form_wrap {
+      color: #fff !important;
+    }
+
+    .form-text {
+      color: #fff !important;
+    }
+
+    .btn {
+      width: 100%;
+      height: 50px;
+      background: linear-gradient(135deg, #00C9FF, #92FE9D);
+      border: none;
+      border-radius: 30px;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 201, 255, 0.3);
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 201, 255, 0.5);
+    }
+
+    /* 新增：错误提示信息样式 */
+    .error-message {
+      color: #ff6b6b;
+      font-size: 12px;
+      display: block;
+      margin-left: 30px;
+      margin-bottom: 5px;
+    }
+
+    .input-group-text {
+      background-color: rgba(255, 255, 255, 0.2);
+      border-right: none;
+      color: #fff;
+      border-radius: 30px 0 0 30px;
+      transition: background-color 0.3s ease;
+    }
+
+    .form-control {
+      border-left: none;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      border-radius: 0 30px 30px 0;
+      transition: background-color 0.3s ease;
+    }
+
+    .form-control::placeholder {
+      color: #fff;
+      opacity: 0.8;
+    }
+
+    .form-control:focus {
+      box-shadow: none;
+      border-color: #fff;
+      background-color: rgba(255, 255, 255, 0.3);
+      color: #fff;
+    }
+
+    .input-group:hover .input-group-text,
+    .input-group:hover .form-control {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h3>忘记密码</h3>
+    <!-- 表单 -->
+    <div class="form_wrap">
+      <form class="forgot-form" id="forgotForm">
+        <div class="mb-3 input-group">
+          <span class="input-group-text">
+            <i class="fa-solid fa-user"></i>
+          </span>
+          <input type="text" class="form-control username" name="username" placeholder="账号名">
+        </div>
+        <span class="error-message"></span>
+        <div class="mb-3 input-group">
+          <span class="input-group-text">
+            <i class="fa-solid fa-phone"></i>
+          </span>
+          <input type="text" class="form-control phone" name="phone" placeholder="手机号">
+        </div>
+        <span class="error-message"></span>
+        <div class="mb-3 input-group">
+          <span class="input-group-text">
+            <i class="fa-solid fa-key"></i>
+          </span>
+          <input type="password" class="form-control newPassword" name="newPassword" placeholder="新密码">
+        </div>
+        <span class="error-message"></span>
+        <div class="mb-3 input-group">
+          <span class="input-group-text">
+            <i class="fa-solid fa-key"></i>
+          </span>
+          <input type="password" class="form-control confirmPassword" name="confirmPassword" placeholder="确认新密码">
+        </div>
+        <span class="error-message"></span>
+        <div class="mb-3 input-group">
+          <span class="input-group-text">
+            <i class="fa-solid fa-code"></i>
+          </span>
+          <input type="text" class="form-control userCode" name="userCode" placeholder="验证码">
+          <a href="javascript:;" class="code">发送验证码</a>
+        </div>
+        <span class="error-message"></span>
+        <button type="button" class="btn btn-primary btn-submit"> 提 交 </button>
+        <p class="mt-3 font-weight-normal">
+          想起密码了?
+          <a href="{% url 'login' %}">
+            <strong>去登录</strong>
+          </a>
+        </p>
+      </form>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    function alertFn(msg, isSuccess) {
+      const type = isSuccess ? '成功' : '失败';
+      alert(`${type}: ${msg}`);
+    }
+
+    // 发送验证码按钮点击事件
+    const codeBtn = document.querySelector('.code');
+    let countdown = 60;
+    let timer;
+
+    codeBtn.addEventListener('click', function () {
+      if (!timer) {
+        this.disabled = true;
+        timer = setInterval(() => {
+          countdown--;
+          if (countdown > 0) {
+            this.textContent = `${countdown} 秒后重新发送`;
+          } else {
+            clearInterval(timer);
+            timer = null;
+            countdown = 60;
+            this.textContent = '发送验证码';
+            this.disabled = false;
+          }
+        }, 1000);
+      }
+    });
+
+    // 验证用户名
+    const usernameInput = document.querySelector('.username');
+    usernameInput.addEventListener('blur', function () {
+      const username = this.value;
+      const errorSpan = this.parentNode.nextElementSibling;
+      if (username.length < 3) {
+        errorSpan.textContent = '用户名至少 3 个字符';
+      } else {
+        errorSpan.textContent = '';
+      }
+    });
+
+    // 验证手机号
+    const phoneInput = document.querySelector('.phone');
+    const phoneRegex = /^1[3-9]\d{9}$/;
+    phoneInput.addEventListener('blur', function () {
+      const phone = this.value;
+      const errorSpan = this.parentNode.nextElementSibling;
+      if (!phoneRegex.test(phone)) {
+        errorSpan.textContent = '请输入有效的手机号';
+      } else {
+        errorSpan.textContent = '';
+      }
+    });
+
+    // 验证新密码
+    const newPasswordInput = document.querySelector('.newPassword');
+    newPasswordInput.addEventListener('blur', function () {
+      const newPassword = this.value;
+      const errorSpan = this.parentNode.nextElementSibling;
+      if (newPassword.length < 6) {
+        errorSpan.textContent = '新密码至少 6 个字符';
+      } else {
+        errorSpan.textContent = '';
+      }
+    });
+
+    // 验证确认密码
+    const confirmPasswordInput = document.querySelector('.confirmPassword');
+    confirmPasswordInput.addEventListener('blur', function () {
+      const newPassword = newPasswordInput.value;
+      const confirmPassword = this.value;
+      const errorSpan = this.parentNode.nextElementSibling;
+      if (newPassword!== confirmPassword) {
+        errorSpan.textContent = '两次输入的密码不一致';
+      } else {
+        errorSpan.textContent = '';
+      }
+    });
+
+    // 验证验证码
+    const userCodeInput = document.querySelector('.userCode');
+    userCodeInput.addEventListener('blur', function () {
+      const userCode = this.value;
+      const errorSpan = this.parentNode.nextElementSibling;
+      if (userCode.length!== 6) {
+        errorSpan.textContent = '验证码为 6 位数字';
+      } else {
+        errorSpan.textContent = '';
+      }
+    });
+
+    // 提交按钮点击事件
+    const submitBtn = document.querySelector('.btn-submit');
+    submitBtn.addEventListener('click', function () {
+      const username = usernameInput.value;
+      const phone = phoneInput.value;
+      const newPassword = newPasswordInput.value;
+      const confirmPassword = confirmPasswordInput.value;
+      const userCode = userCodeInput.value;
+
+      const errorSpans = document.querySelectorAll('.error-message');
+      let hasError = false;
+      errorSpans.forEach(span => {
+        if (span.textContent!== '') {
+          hasError = true;
+        }
+      });
+
+      if (!hasError) {
+        alertFn('表单验证通过，但未发送到后端', false);
+      }
+    });
+  </script>
+</body>
+
+</html>

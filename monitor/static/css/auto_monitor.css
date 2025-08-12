@@ -1,0 +1,633 @@
+/* 自动监控系统样式 */
+.auto-monitor-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #e0f7fa;
+    z-index: 2000;
+    display: none;
+    flex-direction: column;
+    font-family: 'Inter', sans-serif;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    animation: fadeInContainer 0.5s ease-in-out;
+}
+
+@keyframes fadeInContainer {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.auto-monitor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    animation: slideDownHeader 0.5s ease-in-out;
+}
+
+@keyframes slideDownHeader {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+.auto-monitor-header h2 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.monitor-controls {
+    display: flex;
+    gap: 15px;
+}
+
+.monitor-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.monitor-btn i {
+    margin-right: 8px;
+}
+
+.monitor-start {
+    background: linear-gradient(135deg, #00b09b, #96c93d);
+}
+
+.monitor-start:hover {
+    background: linear-gradient(135deg, #009a88, #84b134);
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(150, 201, 61, 0.5);
+}
+
+.monitor-stop {
+    background: linear-gradient(135deg, #f44336, #e91e63);
+}
+
+.monitor-stop:hover {
+    background: linear-gradient(135deg, #d32f2f, #c2185b);
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(244, 67, 54, 0.5);
+}
+
+.monitor-close {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.monitor-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.05);
+}
+
+.monitor-btn.monitor-close {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.monitor-btn.performance-toggle {
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 8px;
+    margin-right: 8px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.monitor-btn.performance-toggle:hover {
+    background-color: #0b7dda;
+}
+
+.monitor-btn.monitor-close:hover {
+    background-color: #d32f2f;
+}
+
+.auto-monitor-body {
+    display: flex;
+    flex: 1;
+    padding: 30px 40px;
+    gap: 30px;
+    overflow-y: auto;
+}
+
+.camera-container {
+    flex: 3;
+    position: relative;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    animation: fadeInCamera 0.5s ease-in-out 0.2s both;
+}
+
+@keyframes fadeInCamera {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.camera-container:hover {
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    transform: scale(1.01);
+}
+
+#camera-feed {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.9);
+}
+
+.detection-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.camera-status {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px 20px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.status-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #f44336;
+    animation: pulse-status 1.5s infinite;
+}
+
+@keyframes pulse-status {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.stats-container {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    animation: fadeInStats 0.5s ease-in-out 0.4s both;
+}
+
+@keyframes fadeInStats {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.stats-panel,
+.alert-container {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.stats-panel:hover,
+.alert-container:hover {
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    transform: translateY(-5px);
+}
+
+.stats-panel h3,
+.alert-container h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+    color: #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 10px;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.stats-row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.stat-item {
+    flex: 1;
+    min-width: calc(50% - 15px);
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+    background: rgba(0, 0, 0, 0.3);
+    transform: translateY(-3px);
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin-bottom: 8px;
+}
+
+.stat-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.progress-container {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.progress-label {
+    min-width: 70px;
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+.progress-bar-container {
+    flex: 1;
+    height: 8px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0 12px;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(135deg, #00b09b, #96c93d);
+    transition: width 0.5s ease;
+}
+
+.progress-value {
+    min-width: 30px;
+    text-align: right;
+    font-size: 0.9rem;
+    color: #fff;
+}
+
+.alert-container {
+    flex: 1;
+}
+
+.alerts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.alert-item {
+    background: rgba(244, 67, 54, 0.1);
+    border-left: 3px solid #f44336;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    animation: fadeInAlert 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+@keyframes fadeInAlert {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.alert-item:hover {
+    background: rgba(244, 67, 54, 0.2);
+    transform: translateY(-3px);
+}
+
+.auto-monitor-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background: rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+    animation: slideUpFooter 0.5s ease-in-out;
+}
+
+@keyframes slideUpFooter {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+.monitor-status {
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+#monitor-status-text {
+    color: #fff;
+}
+
+.monitor-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.action-btn {
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-btn i {
+    margin-right: 8px;
+}
+
+.action-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.action-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* 异常标记点 */
+.anomaly-marker {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid #f44336;
+    animation: pulse-anomaly 1.5s infinite;
+    pointer-events: none;
+}
+
+@keyframes pulse-anomaly {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* 建议提示 */
+.suggestion {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    max-width: 220px;
+    pointer-events: none;
+    z-index: 10;
+    animation: fadeInOut 4s forwards;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+/* 响应式设计 */
+@media screen and (max-width: 992px) {
+    .auto-monitor-body {
+        flex-direction: column;
+    }
+
+    .camera-container {
+        height: 40vh;
+    }
+
+    .stats-container {
+        flex-direction: row;
+    }
+
+    .stats-panel,
+    .alert-container {
+        flex: 1;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .stats-container {
+        flex-direction: column;
+    }
+
+    .auto-monitor-header h2 {
+        font-size: 1.6rem;
+    }
+
+    .monitor-btn {
+        padding: 8px 16px;
+        font-size: 0.8rem;
+    }
+
+    .stat-item {
+        min-width: 100%;
+    }
+}
+
+/* 弹窗样式 */
+.modals {
+    display: none;
+    position: fixed;
+    z-index: 3000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6); /* 调整背景透明度，与监控界面氛围一致 */
+    animation: fadeInModalBg 0.5s ease-in-out; /* 添加背景淡入动画 */
+}
+
+@keyframes fadeInModalBg {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.modals-content {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    width: 100%;
+    height: 580px;
+    max-width: 1200px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    color: #e0f7fa;
+    font-family: 'Inter', sans-serif;
+    animation: fadeInModal 0.5s ease-in-out;
+}
+
+@keyframes fadeInModal {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.close-btn {
+    color: #fff;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: #f44336;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modals-body {
+    display: flex;
+    gap: 20px;
+    height: 100%;
+}
+
+.image-grid {
+    flex: 3;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-gap: 10px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 15px;
+}
+
+.screenshot-img {
+    position: relative;
+    display: block;
+    width: 1160px;
+    height: 540px;
+    border-radius: 15px;
+    margin: 0 auto;
+}
+.screenshot-img:hover {
+    transform: scale(1.05);
+}

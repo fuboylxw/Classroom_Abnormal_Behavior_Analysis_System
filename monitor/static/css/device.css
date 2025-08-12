@@ -1,0 +1,242 @@
+.filter21 {
+  padding-left: 150px;
+}
+
+#page2-2 select,
+.filter21 select{
+  width: 150px;
+  height: 24px;
+  border: none;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.22);
+  padding-left: 9px;
+  margin-left: 20px;
+  margin-right: 35px;
+  border-radius: 3px;
+}
+
+.status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.status-dot.finished {
+  background-color: gray;
+}
+
+.status-dot.in-progress {
+  background-color: green;
+}
+
+.rr {
+  margin-top: 2px;
+  width: 960px;
+  height: 508px;
+  padding-left: 10px;
+  background-color: #fff;
+}
+
+.major-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  padding-left: 60px;
+}
+
+.major-container img {
+  width: 70px;
+  height: 40px;
+  border-radius: 7px;
+  display: block;
+  margin-right: 40px;
+}
+
+.major-container span {
+  vertical-align: middle;
+  text-align: left;
+}
+
+select::placeholder {
+  color: #999;
+}
+
+/* WebKit 浏览器（如 Chrome、Safari） */
+select::-webkit-select-placeholder {
+  color: #999;
+}
+
+/* Mozilla Firefox 4 到 18 */
+select:-moz-placeholder {
+  color: #999;
+}
+
+/* Mozilla Firefox 19+ */
+select::-moz-placeholder {
+  color: #999;
+}
+
+/* Internet Explorer 10+ */
+select:-ms-input-placeholder {
+  color: #999;
+}
+/* 弹窗样式 */
+#popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+  animation: fadeInBackground 0.3s ease-out;
+}
+
+@keyframes fadeInBackground {
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}
+
+/* 弹窗内容容器样式 */
+.popup-content {
+  position: relative;
+  width: 80%;
+  max-width: 1200px;
+  height: 80%;
+  max-height: 800px;
+  overflow: hidden;
+  border-radius: 25px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.3), 0 0 60px rgba(0, 0, 0, 0.2) inset;
+  backdrop-filter: blur(15px);
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+      transform: scale(0.9);
+      opacity: 0;
+  }
+  to {
+      transform: scale(1);
+      opacity: 1;
+  }
+}
+
+/* 视频容器样式 */
+.video-container {
+    position: absolute;
+    border-radius: 10px;
+    top: 10px;
+    left: 10px;
+    width: 60%;
+    height: 96%;
+    overflow: hidden;
+}
+
+.video-container video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.8);
+}
+
+/* 信息容器样式 */
+.info-container {
+  position: absolute;
+  top: 50%;
+  right: 3%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  perspective: 1000px;
+  width: 35%;
+  transition: all 0.3s ease;
+}
+
+/* 信息卡片样式 */
+.info-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+  color: #f0f0f0;
+  padding: 30px;
+  border-radius: 20px;
+  width: 100%;
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.1), 0 0 50px rgba(0, 255, 255, 0.05) inset;
+  backdrop-filter: blur(20px);
+  transform: translateY(0);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.info-container:hover .info-card {
+  transform: translateY(0);
+}
+
+.info-container .info-card:nth-child(1) {
+  transform: translateY(0);
+}
+
+.info-container .info-card:nth-child(2) {
+  transform: translateY(-30%);
+}
+
+.info-container .info-card:nth-child(3) {
+  transform: translateY(-60%);
+}
+
+.info-container:hover .info-card:nth-child(1) {
+  transform: translateY(0);
+}
+
+.info-container:hover .info-card:nth-child(2) {
+  transform: translateY(10%);
+}
+
+.info-container:hover .info-card:nth-child(3) {
+  transform: translateY(20%);
+}
+
+/* 信息项样式 */
+.info-item {
+  margin-bottom: 20px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+}
+
+.info-item strong {
+  margin-right: 15px;
+  color: #00ffff;
+  font-weight: 600;
+  min-width: 90px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  background: none;
+  border: none;
+  color: #00ffff;
+  font-size: 40px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+
+.close-btn:hover {
+  color: #ffffff;
+  transform: rotate(90deg) scale(1.2);
+}

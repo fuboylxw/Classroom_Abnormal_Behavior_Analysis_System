@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
+    <!-- 引入 ECharts 库 -->
+    <script src="{% static 'js/echart.min.js' %}"></script>
+    <!-- 添加自动监控CSS -->
+    <link rel="stylesheet" href="{% static 'css/auto_monitor.css'%}">
+    <link rel="stylesheet" href="{% static 'css/history_anlysize.css'%}">
+    <link rel="stylesheet" href="{% static 'css/device.css'%}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="sidebar">
+            <div class="bg_shadow"></div>
+            <div class="sidebar_inner">
+                <div class="close">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </div>
+                <div class="profile_info">
+                    <div class="profile_img">
+                        <img src="../static/image/logo.jpg" alt="">
+                    </div>
+                    <div class="profile_data">
+                        <p class="name">西安工程大学</p>
+                        <span>
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            中国,陕西
+                        </span>
+                    </div>
+                </div>
+                <ul class="siderbar_menu">
+                    <li class="active">
+                        <a href="#" data-target="page1">
+                            <div class="icon">
+                                <i class="fa fa-home" aria-hidden="true"></i>
+                            </div>
+                            <div class="title">首页</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="icon">
+                                <i class="fa fa-puzzle-piece" aria-hidden="true"></i>
+                            </div>
+                            <div class="title">设备管理</div>
+                            <div class="arrow">
+                                <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                            </div>
+                        </a>
+                        <ul class="accordion">
+                            <li><a href="#" class="active" data-target="page2-1">设备列表</a></li>
+                            <li><a href="#" data-target="page2-2">历史列表</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="icon">
+                                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                            </div>
+                            <div class="title">教学管理</div>
+                            <div class="arrow">
+                                <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                            </div>
+                        </a>
+                        <ul class="accordion">
+                            <li><a href="#" class="active" data-target="page3-1">分析列表</a></li>
+                            <li><a href="#" data-target="page3-2">敬请期待</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <div class="icon">
+                                <i class="fa fa-object-ungroup" aria-hidden="true"></i>
+                            </div>
+                            <div class="title">策略管理</div>
+                            <div class="arrow">
+                                <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                            </div>
+                        </a>
+                        <ul class="accordion">
+                            <li><a href="#" class=" active" data-target="page4-1">敬请期待</a></li>
+                            <li><a href="#" data-target="page4-2">敬请期待</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="main_container">
+            <div class="navbar">
+                <div class="hamburger">
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </div>
+                <div class="logo">
+                    <a href="#">智能巡课系统</a>
+                </div>
+            </div>
+            <div id="page1" class="page actives">
+                <div class="chat-container">
+                    <div class="header">
+                        <h1>智能巡课助手</h1>
+                        <select class="form-select" id="modelSelect" name="model_name" required>
+                            <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                            <option value="gpt-4">GPT-4</option>
+                            <option value="deepseek-chat">DeepSeek Chat</option>
+                            <option value="deepseek-coder">DeepSeek Coder</option>
+                            <option value="spark-v3">讯飞星火v3</option>
+                        </select>
+                    </div>
+                    <div class="chat-history" id="chatHistory">
+                        <!-- 对话历史记录 -->
+                    </div>
+                    <div class="input-area">
+                        <textarea id="messageInput" placeholder="请输入您的问题..."></textarea>
+                        <button class="btn btn-send" onclick="window.chatUI.sendMessage()">
+                            <i class="fa fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <div class="copyright">
+                        &copy; 2025 智能巡课助手. 保留所有权利.
+                    </div>
+                </div>
+            </div>
+            <div id="page2-1" class="school page">
+                <ul class="accordion-right">
+                    <li class="active">
+                        <a href="#" class="schools">
+                            <div class="icon">
+                                <i class="fa fa-caret-right arrow" aria-hidden="true"></i>
+                                <i class="fa fa-folder folder" aria-hidden="true"></i>
+                            </div>
+                            <div class="sc">西安工程大学</div>
+                        </a>
+                        <ul class="accordion-rights">
+                            <li >
+                                <a href="#" class="zone">
+                                    <div class="icon">
+                                        <i class="fa fa-caret-right arrow" aria-hidden="true"></i>
+                                        <i class="fa fa-folder folder" aria-hidden="true"></i>
+                                    </div>
+                                    <div>临潼校区</div>
+                                </a>
+                                <ul class="built">
+                                    <li>
+                                        <a href="#" data-building="A栋">
+                                            <div class="icon">
+                                                <i class="fa fa-caret-right arrow" aria-hidden="true"></i>
+                                                <i class="fa fa-folder folder" aria-hidden="true"></i>
+                                            </div>
+                                            <div>A栋</div>
+                                        </a>
+                                        <ul class="floor">
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>1层</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>2层</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>3层</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>4层</div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-building="B栋">
+                                            <div class="icon">
+                                                <i class="fa fa-caret-right arrow" aria-hidden="true"></i>
+                                                <i class="fa fa-folder folder" aria-hidden="true"></i>
+                                            </div>
+                                            <div>B栋</div>
+                                        </a>
+                                        <ul class="floor">
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>1层</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>2层</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>3层</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>4层</div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-building="C栋">
+                                            <div class="icon">
+                                                <i class="fa fa-caret-right arrow" aria-hidden="true"></i>
+                                                <i class="fa fa-folder folder" aria-hidden="true"></i>
+                                            </div>
+                                            <div>C栋</div>
+                                        </a>
+                                        <ul class="floor">
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>1层</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>2层</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>3层</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>4层</div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-building="D栋">
+                                            <div class="icon">
+                                                <i class="fa fa-caret-right arrow" aria-hidden="true"></i>
+                                                <i class="fa fa-folder folder" aria-hidden="true"></i>
+                                            </div>
+                                            <div>D栋</div>
+                                        </a>
+                                        <ul class="floor">
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>1层</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>2层</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>3层</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>4层</div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" class="zone">
+                                    <div class="icon">
+                                        <i class="fa fa-caret-right arrow" aria-hidden="true"></i>
+                                        <i class="fa fa-folder folder" aria-hidden="true"></i>
+                                    </div>
+                                    <div>金花校区</div>
+                                </a>
+                                <ul class="built" data-building="A栋">
+                                    <li>
+                                        <a href="#" >
+                                            <div class="icon">
+                                                <i class="fa fa-caret-right arrow" aria-hidden="true"></i>
+                                                <i class="fa fa-folder folder" aria-hidden="true"></i>
+                                            </div>
+                                            <div>A栋</div>
+                                        </a>
+                                        <ul class="floor">
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>1层</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>2层</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>3层</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>4层</div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-building="B栋">
+                                            <div class="icon">
+                                                <i class="fa fa-caret-right arrow" aria-hidden="true"></i>
+                                                <i class="fa fa-folder folder" aria-hidden="true"></i>
+                                            </div>
+                                            <div>B栋</div>
+                                        </a>
+                                        <ul class="floor">
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>1层</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>2层</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>3层</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>4层</div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-building="C栋">
+                                            <div class="icon">
+                                                <i class="fa fa-caret-right arrow" aria-hidden="true"></i>
+                                                <i class="fa fa-folder folder" aria-hidden="true"></i>
+                                            </div>
+                                            <div>C栋</div>
+                                        </a>
+                                        <ul class="floor">
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>1层</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>2层</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>3层</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>4层</div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-building="D栋">
+                                            <div class="icon">
+                                                <i class="fa fa-caret-right arrow" aria-hidden="true"></i>
+                                                <i class="fa fa-folder folder" aria-hidden="true"></i>
+                                            </div>
+                                            <div>D栋</div>
+                                        </a>
+                                        <ul class="floor">
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>1层</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>2层</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>3层</div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" >
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    <div>4层</div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="content">
+                    <div class="filter21">
+                        <div>
+                            <label for="college">学院:</label>
+                            <select id="college1">
+                                <option value="">选择学院</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="major">专业:</label>
+                            <select id="major1">
+                                <option value="">选择专业</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-primary sel-btn" onclick="queryClassInfo()">筛选</button>
+                    </div>
+                    <div class="rr">
+                        <table id="statusTable" class="table">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 436px;">专业</th>
+                                    <th style="width: 178px;">教室编号</th>
+                                    <th style="width: 168px;">当前状态</th>
+                                    <th style="width: 230px;">创建时间</th>
+                                    <th style="width: 217px;">到课率</th>
+                                </tr>
+                            </thead>
+                            <tbody class="list"></tbody>
+                        </table>
+                    </div>
+                    <!-- 自动监控界面 -->
+                    <div id="auto-monitor" class="auto-monitor-container">
+                        <div class="auto-monitor-header">
+                            <h2>实时智能监控</h2>
+                            <div class="monitor-controls">
+                                <button id="performance-mode-toggle" class="monitor-btn performance-toggle" title="切换性能模式">低性能</button>
+                                <button id="close-monitor" class="monitor-btn monitor-close">&times;</button>
+                            </div>
+                        </div>
+                        <div class="auto-monitor-body">
+                            <div class="camera-container">
+                                <video id="camera-feed" autoplay playsinline muted></video>
+                                <canvas id="detection-canvas" class="detection-overlay"></canvas>
+                                <div class="camera-status">
+                                    <span id="camera-status-text">点击摄像头区域启动</span>
+                                    <div id="camera-indicator" class="status-indicator"></div>
+                                </div>
+                            </div>
+                            <div class="stats-container">
+                                <div class="stats-panel">
+                                    <h3>课堂状态分析</h3>
+                                    <div class="stats-row">
+                                        <div class="stat-item">
+                                            <div class="stat-label">睡觉</div>
+                                            <div class="stat-value" id="sleeping-count">0</div>
+                                        </div>
+                                        <div class="stat-item">
+                                            <div class="stat-label">玩手机</div>
+                                            <div class="stat-value" id="phone-count">0</div>
+                                        </div>
+                                        <div class="stat-item">
+                                            <div class="stat-label">吃东西</div>
+                                            <div class="stat-value" id="eating-count">0</div>
+                                        </div>
+                                        <div class="stat-item">
+                                            <div class="total-students-count">总人数</div>
+                                            <div class="stat-value" id="total-students-count">0</div>
+                                        </div>
+                                    </div>
+                                    <div class="progress-container">
+                                        <div class="progress-label">专注度</div>
+                                        <div class="progress-bar-container">
+                                            <div class="progress-bar-fill" id="attention-bar"></div>
+                                        </div>
+                                        <div class="progress-value" id="attention-value">100%</div>
+                                    </div>
+                                </div>
+                                <div class="alert-container">
+                                    <h3>异常行为提醒</h3>
+                                    <div id="alerts-list" class="alerts-list">
+                                        <!-- 异常行为提醒将动态填充 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="auto-monitor-footer">
+                            <div class="monitor-status">
+                                <span>状态: </span>
+                                <span id="monitor-status-text">未开始</span>
+                            </div>
+                            <div class="monitor-actions">
+                                <button id="take-snapshot" class="action-btn">
+                                    <i class="fa fa-camera"></i> 显示自动截图信息
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 弹窗容器 -->
+                    <div id="screenshot-modals" class="modals">
+                      <div class="modals-content">
+                        <!-- 关闭按钮 -->
+                        <span class="close-btn">&times;</span>
+
+                        <!-- 弹窗主体内容 -->
+                        <div class="modals-body">
+                          <!-- 左侧图片区域 -->
+                          <div class="image-grid" id="screenshot-container"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="custom_bt_btn">
+                        <div class="custom_pagination">
+                          <button class="custom_prev-btn" disabled>&lt; 上一页</button>
+                          <div class="custom_page-btns"></div>
+                          <button class="custom_next-btn">下一页 &gt;</button>
+                          <!-- 添加跳转至文本 -->
+                          <span class="custom_jump-label">跳转至</span>
+                          <input type="number" class="page-input" placeholder="页码">
+                          <span class="custom_page-error" style="color: red; margin-left: 10px;"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="page2-2" class="page">
+                <div class="filter">
+                    <div>
+                            <label for="college">学院:</label>
+                            <select id="college">
+                                <option value="">选择学院</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="major">专业:</label>
+                            <select id="major">
+                                <option value="">选择专业</option>
+                            </select>
+                        </div>
+                    <div class="date">
+                        <label for="start-time">日期:</label>
+                        <input type="date" id="start-time" class="date-input">
+                        <span class="separator">至</span>
+                        <input type="date" id="end-time" class="date-input">
+                        <label for="end-time" class="visually-hidden">结束日期</label>
+                    </div>
+                    <button type="button" id="filter-button2" class="btn btn-primary sel-btn" onclick="queryClassInfo2()">筛选</button>
+                </div>
+                <div class="con23" id="courseContainer"></div>
+                <div class="bt_btn">
+                    <div class="pagination">
+                        <button class="prev-btn" disabled>&lt; 上一页</button>
+                        <div class="page-btns"></div>
+                        <button class="next-btn">下一页 &gt;</button>
+                        <!-- 添加跳转至文本 -->
+                        <span class="jump-label">跳转至</span>
+                        <input type="number" class="page-input" placeholder="页码">
+                        <span class="page-error" style="color: red; margin-left: 10px;"></span>
+                    </div>
+                </div>
+                <div id="imageModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <div class="modal-body">
+                            <div class="modal-left">
+                                <img id="modalImage" src="" alt="放大图片">
+                            </div>
+                            <div class="modal-right">
+                                <div class="classroom-info">
+                                    <h3>课程信息</h3>
+                                    <p>学院: <span id="collegeName"></span></p>
+                                    <p>专业: <span id="courseMajor"></span></p>
+                                    <p>班级: <span id="classroomClass"></span></p>
+                                    <p>课程名: <span id="courseName"></span></p>
+                                    <p>授课老师: <span id="courseTeacher"></span></p>
+                                </div>
+                                <div class="abnormal-rates">
+                                    <h3>异常数量比率</h3>
+                                    <p>进食率: <span id="eatingRate"></span>
+                                        <div class="progress-bar" id="eatingProgressBar">
+                                            <div class="progress-bar-fill" id="eatingProgressFill">
+                                                <span class="progress-bar-text" id="eatingProgressText"></span>
+                                            </div>
+                                        </div>
+                                    </p>
+                                    <p>睡频: <span id="sleepingRate"></span>
+                                        <div class="progress-bar" id="sleepingProgressBar">
+                                            <div class="progress-bar-fill" id="sleepingProgressFill">
+                                                <span class="progress-bar-text" id="sleepingProgressText"></span>
+                                            </div>
+                                        </div>
+                                    </p>
+                                    <p>缺勤率: <span id="lateEarlyRate"></span>
+                                        <div class="progress-bar" id="lateEarlyProgressBar">
+                                            <div class="progress-bar-fill" id="lateEarlyProgressFill">
+                                                <span class="progress-bar-text" id="lateEarlyProgressText"></span>
+                                            </div>
+                                        </div>
+                                    </p>
+                                    <p>课堂专注度: <span id="phoneRate"></span>
+                                        <div class="progress-bar" id="phoneProgressBar">
+                                            <div class="progress-bar-fill" id="phoneProgressFill">
+                                                <span class="progress-bar-text" id="phoneProgressText"></span>
+                                            </div>
+                                        </div>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="thumbnail-container">
+                            <div class="thumbnails" id="thumbnails"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="page3-1" class="page">
+                <div class="total_container">
+                    <div class="total_ec_left">
+                        <div id="echart1" class="echart echart1"></div>
+                     </div>
+                     <div class="total_ec_right">
+                        <div class="total_ec_top">
+                            <div id="echart2" class="echart echart2">
+                                <div class="con">
+                                    <b>{{ department_count }}</b>
+                                    <h3>学院数量总计</h3>
+                                </div>
+                                <img src="../static/image/graduation-hat.jpg" alt="">
+                            </div>
+                            <div id="echart3" class="echart echart3">
+                                <div class="con">
+                                    <b>{{ total_abnormal_events }}</b>
+                                    <h3>异常事件总量</h3>
+                                </div>
+                                <img src="../static/image/update.jpg" alt="">
+                            </div>
+                            <div id="echart4" class="echart echart4">
+                                <div class="con">
+                                    <b>{{ abnormal_fluctuation_ratio|floatformat:2 }}%</b>
+                                    <h3>异常波动比率</h3>
+                                </div>
+                                <img src="../static/image/perfomance.jpg" alt="">
+                            </div>
+                            <div id="echart5" class="echart echart5">
+                                <div class="con">
+                                    <b>{{ total_students }}</b>
+                                    <h3>学生总数</h3>
+                                </div>
+                                <img src="../static/image/continuous-learning.jpg" alt="">
+                            </div>
+                        </div>
+                        <div class="right-charts-container">
+                            <div class="echart6-container">
+                                <div class="total_ec_ce">
+                                    <div id="echart6" class="echart echart6"></div>
+                                </div>
+                            </div>
+                            <div class="echart78-container">
+                                <div id="echart7" class="echart echart7"></div>
+                                <div id="echart8" class="echart echart8"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/index.js' %}"></script>
+    <script src="{% static 'js/history.js' %}"></script>
+    <script src="{% static 'js/analysis.js' %}"></script>
+    <script src="{% static 'js/device.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+    <!-- AI检测模块 -->
+    <script src="{% static 'js/ai_detection.js' %}"></script>
+    <!-- 自动监控脚本 -->
+    <script src="{% static 'js/auto_monitor.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.14.1/dist/ort.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.polyfill.io/v3/polyfill.min.js"></script>
+</body>
+</html>

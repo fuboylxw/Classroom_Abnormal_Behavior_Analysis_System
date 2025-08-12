@@ -1,0 +1,10 @@
+#path: D://Python//virtual environment//Project//Abnormal_behavior_recognition//datasets//dataset.yolov11
+#path: D://Python//virtual environment//Project//Abnormal_behavior_recognition//datasets//Dataset_yolov11
+#path: D://Python//virtual environment//Project//Abnormal_behavior_recognition//datasets//HumanFinder.v1i.yolov11
+path: /root/autodl-tmp/YOLOV11/Dataset
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 6
+names: ['phone', 'cigarette', 'face', 'no-vest', 'vest', 'face_mask']
