@@ -6,16 +6,11 @@ from ultralytics import YOLO
 from .ai_adapters import get_ai_response
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from .models import User
 from django.db.models.functions import ExtractYear, ExtractMonth
-from django.shortcuts import render
-from django.http import JsonResponse, HttpResponse
 from django.views.decorators.http import require_http_methods, require_GET
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q, Sum
-from django.utils import timezone
 from .models import *
-from django.shortcuts import get_object_or_404
 import json
 from django.shortcuts import render, redirect
 from .forms import CourseForm, ScreenshotForm, RegisterForm, LoginForm, ForgotPasswordForm
@@ -24,7 +19,6 @@ import os
 from django.conf import settings
 import base64
 import cv2
-import mysql.connector
 
 
 @csrf_exempt
@@ -100,7 +94,7 @@ def save_and_process_screenshot(request):
     cv2.destroyAllWindows()
     all_class_counts['abnormal'] = class_count
     API = {'deepseek-chat': {
-        'api_key': 'sk-8b35593408f040e9a8d2f9033d0432f1',
+        'api_key': 'your-openai-api-key',
         'api_base': 'https://api.deepseek.com'}
     }
     model = 'deepseek-chat'
@@ -147,11 +141,7 @@ def chat_api(request):
             'api_base': 'https://api.openai.com'
         },
         'deepseek-chat': {
-            'api_key': 'sk-8b35593408f040e9a8d2f9033d0432f1',
-            'api_base': 'https://api.deepseek.com'
-        },
-        'deepseek-coder': {
-            'api_key': 'sk-8b35593408f040e9a8d2f9033d0432f1',
+            'api_key': 'your-openai-api-key',
             'api_base': 'https://api.deepseek.com'
         },
         'spark-v3': {
